@@ -2,23 +2,24 @@ version: '3.7'
 
 networks:
   db_mysql_network:
-    name: db_mysql_network
+    name: ${NETWORK_NAME}
     external: false
 
 services:
   mysql:
-    container_name: mysql_core
+    container_name: ${CONTAINER_NAME}
     volumes:
-      - /srv/container/mysql/data:/var/lib/mysql
+      - ./data:/var/lib/mysql
     environment:
-      - MYSQL_USER=admin
-      - MYSQL_PASSWORD=admin
-      - MYSQL_ROOT_PASSWORD=Ojolali123
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
     command:
       --character-set-server=utf8
     ports:
-      - 33061:3306
-    image: "docker.io/mysql:latest"
+      - ${PUBLIC_PORT}:${PRIVATE_PORT}
+    image: "docker.io/mysql:${MYSQL_VERSION}"
     restart: always
     networks:
       - db_mysql_network
